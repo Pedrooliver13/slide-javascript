@@ -1,35 +1,30 @@
-* {
-  padding: 0;
-  margin: 0;
-  border: 0;
+body {
+  margin: 0px;
+  padding: 0px;
+}
 
-  box-sizing: border-box;
+ul {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
 }
 
 img {
   display: block;
-  width: 100%;
-}
-
-ul {
-  padding: 0;
-  list-style: none;
+  max-width: 100%;
 }
 
 .slide-wrapper {
-  max-width: 100%;
+  overflow: hidden;
 }
 
 .slide {
   display: flex;
+  transform: translateX();
 }
 
 .slide li {
   flex-shrink: 0;
-  max-width: 800px;
   width: 80vw;
-}
-
-.slide  {
-  transform: translate3d(0px,0, 0); /* vamos usar isso para que funcione */
+  max-width: 800px;
 }
