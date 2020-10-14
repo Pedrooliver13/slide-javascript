@@ -8,11 +8,19 @@ export default class Slide {
 
   // pega a primeira posição do mouse e chama a event de mover o mouse(mousemove);
   onStart(event) {
-    event.preventDefault();
-    console.log("start");
+    let moveEvent;
 
-    this.dist.startX = event.clientX;
-    this.wrapper.addEventListener("mousemove", this.onMouseMove);
+    if (event.type === "mousedown") {
+      event.preventDefault();
+      this.dist.startX = event.clientX;
+      moveEvent = "mousemove";
+      
+    } else {
+      this.dist.startX = event.changedTouches[0].clientX;
+      moveEvent = "touchmove";
+    }
+
+    this.wrapper.addEventListener(moveEvent, this.onMouseMove);
   }
 
   // responsável por mover o slide pelo style;
@@ -24,25 +32,32 @@ export default class Slide {
   // atualiza a posição do slide;
   updatePosition(clientX) {
     this.dist.moviment = (this.dist.startX - clientX) * 1.6;
-
     return this.dist.finalPosition - this.dist.moviment;
   }
 
   onMouseMove(event) {
-    const finalPosition = this.updatePosition(event.clientX);
+    const pointerPosition =
+      (event.type === "mousemove") ? event.clientX : event.changedTouches[0].clientX;
+
+    const finalPosition = this.updatePosition(pointerPosition);
     this.moveSlide(finalPosition);
   }
 
   // finaliza os eventListeners;
-  onEnd() {
-    this.wrapper.removeEventListener("mousemove", this.onMouseMove);
-    this.dist.finalPosition = this.dist.movePosition
+  onEnd(event) {
+    console.log(event);
+    const eventType = (event.typer === 'mouseup') ? 'mousemove' : 'touchmove';
+
+    this.wrapper.removeEventListener(eventType, this.onMouseMove);
+    this.dist.finalPosition = this.dist.movePosition;
   }
 
   addSlideEventListener() {
     // o this desse está errado, para consertar usamos o bind
     this.wrapper.addEventListener("mousedown", this.onStart);
+    this.wrapper.addEventListener("touchstart", this.onStart);
     this.wrapper.addEventListener("mouseup", this.onEnd);
+    this.wrapper.addEventListener("touchend", this.onEnd);
   }
 
   // altera o this dos métodos
@@ -55,7 +70,6 @@ export default class Slide {
   init() {
     this.onBind();
     this.addSlideEventListener();
-    
 
     return this;
   }
