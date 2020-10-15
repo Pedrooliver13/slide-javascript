@@ -20,11 +20,11 @@ img {
 
 .slide {
   display: flex;
-  transform: translateX();
 }
 
 .slide li {
   flex-shrink: 0;
   width: 80vw;
   max-width: 800px;
+  margin: 8px 20px;
 }
