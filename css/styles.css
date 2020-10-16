@@ -22,10 +22,25 @@ img {
   display: flex;
 }
 
+.slide:hover {
+  will-change: transform;
+}
+
 .slide li {
   flex-shrink: 0;
   width: 80vw;
   max-width: 800px;
-  margin: 8px 20px;
+  margin: 20px 5px;
 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: .7;
+  transform: scale(0.8);
+  transition: .4s;
+}
+
+.slide li.active {
+  opacity: 1;
+  transform: scale(1);
 }

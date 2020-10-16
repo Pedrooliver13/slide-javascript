@@ -1,9 +1,12 @@
+import debounce from './debounce.js';
+
 export default class Slide {
   constructor(slide, wrapper) {
     this.slide = document.querySelector(slide);
     this.wrapper = document.querySelector(wrapper);
 
     this.dist = { finalPosition: 0, startX: 0, moviment: 0 };
+    this.activeClass = 'active';
   }
 
   // 4º pega a primeira posição do mouse e chama a event de mover o mouse(mousemove);
@@ -56,6 +59,12 @@ export default class Slide {
     this.changeSlideOnEnd();
   }
 
+  changeActiveClass() {
+    this.slideArray.forEach(element => element.item.classList.remove(this.activeClass));
+
+    this.slideArray[this.index.active].item.classList.add(this.activeClass);
+  }
+
   transition(active) {
     this.slide.style.transition = active ? "transform .3s ease" : "";
   }
@@ -101,6 +110,7 @@ export default class Slide {
     const activeSlide = this.slideArray[index];
     this.moveSlide(activeSlide.position);
     this.slideIndexNav(index);
+    this.changeActiveClass();
 
     this.dist.finalPosition = activeSlide.position;
   }
@@ -111,6 +121,17 @@ export default class Slide {
   }
   activeNextSlide() {
     if (this.index.active !== undefined) this.changeSlide(this.index.next);
+  }
+
+  onResize(){
+    setTimeout(() => {
+      this.slideConfig();
+      this.changeSlide(this.index.active);
+    }, 1000);
+  }
+
+  addResizeListener() {
+    window.addEventListener('resize', this.onResize);
   }
 
   // 2º adiciona os events.
@@ -127,11 +148,13 @@ export default class Slide {
     this.onStart = this.onStart.bind(this);
     this.onEnd = this.onEnd.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.onResize = debounce(this.onResize.bind(this), 200);
   }
 
   init() {
     this.onBind();
     this.addSlideEventListener();
+    this.addResizeListener();
     this.slideConfig();
 
     return this;
