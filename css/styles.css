@@ -35,12 +35,37 @@ img {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
   border-radius: 4px;
   overflow: hidden;
-  opacity: .7;
+  opacity: 0.7;
   transform: scale(0.8);
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .slide li.active {
   opacity: 1;
   transform: scale(1);
+}
+
+[data-slide="control"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+[data-slide="control"] li a {
+  display: block;
+
+  background-color: #FB5;
+  border-radius: 50%;
+  margin: 8px;
+
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  text-indent: -9999px;
+
+  transition: .5s;
+}
+
+[data-slide="control"] li.active a {
+  background-color: #7159c1;
 }
